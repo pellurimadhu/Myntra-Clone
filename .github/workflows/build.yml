@@ -27,3 +27,22 @@ jobs:
 
       - name: NPM Install
         run: npm install # Add your specific npm install command
+      - name: Docker Login
+        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Docker Scout Scan
+        run: |
+          docker-scout quickview fs://.
+          docker-scout cves fs://.
+      - name: Docker build and push
+        run: |
+          # Run commands to build and push Docker images
+          docker build -t myntra .
+          docker tag myntra pellurimadhu/myntra:latest
+          docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+          docker push pellurimadhu/myntra:latest
+           env:
+           DOCKER_CLI_ACI: 1
+      - name: Docker Scout Image Scan
+        run: |
+          docker-scout quickview pellurimadhu/myntra:latest
+          docker-scout cves pellurimadhu/myntra:latest
