@@ -36,9 +36,3 @@ jobs:
           docker tag myntra pellurimadhu/myntra:latest
           docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
           docker push pellurimadhu/myntra:latest
-           env:
-           DOCKER_CLI_ACI: 1
-      - name: Docker Scout Image Scan
-        run: |
-          docker-scout quickview pellurimadhu/myntra:latest
-          docker-scout cves pellurimadhu/myntra:latest
