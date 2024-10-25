@@ -1,10 +1,47 @@
----
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: myntra
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: myntra
+#   template:
+#     metadata:
+#       labels:
+#         app: myntra
+#     spec:
+#       containers:
+#       - name: myntra
+#         image: pellurimadhu/myntra:latest
+#         ports:
+#         - containerPort: 3000   # Use port 3000
+
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: myntra-service
+# spec:
+#   selector:
+#     app: myntra
+#   ports:
+#   - protocol: TCP
+#     port: 80                 # Expose port 80
+#     targetPort: 3000
+#   type: LoadBalancer
+
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: myntra
+  labels:
+    app: myntra
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: myntra
@@ -17,18 +54,17 @@ spec:
       - name: myntra
         image: pellurimadhu/myntra:latest
         ports:
-        - containerPort: 3000   # Use port 3000
+          - containerPort: 3000
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: myntra-service
+  name: myntra-clusterip
 spec:
+  type: LoadBalancer
   selector:
     app: myntra
   ports:
-  - protocol: TCP
-    port: 80                 # Expose port 80
-    targetPort: 3000
-  type: LoadBalancer
+    - port: 80
+      targetPort: 30000
