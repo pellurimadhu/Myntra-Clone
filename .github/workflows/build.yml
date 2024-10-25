@@ -38,6 +38,12 @@ jobs:
           docker push pellurimadhu/myntra:latest
       - name: run the container
         run: docker run -d --name myntra -p 3000:3000  pellurimadhu/myntra:latest
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1 # Specify your desired region
       - name: Update config
         run: aws eks --region ap-south-1 update-kubeconfig --name EKS_CLOUD
       - name: Deploy to EKS
