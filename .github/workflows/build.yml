@@ -37,4 +37,4 @@ jobs:
           docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
           docker push pellurimadhu/myntra:latest
       - name: run the container
-        run: docker run -d --name myntra -p 3000:3000 pellurimadhu/myntra:latest/myntra:latest
+        run: docker run -d --name myntra -p 3000:3000  pellurimadhu/myntra:latest
